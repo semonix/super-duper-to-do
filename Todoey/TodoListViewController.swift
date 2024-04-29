@@ -15,6 +15,6 @@ class TodoListViewController: UITableViewController {
         // Do any additional setup after loading the view.
     }
 
-// Старый текст, который нужно будет вернуть
+// Новый текст, который нужно будет удалить
 }
 
