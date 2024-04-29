@@ -9,12 +9,15 @@
 import UIKit
 
 class TodoListViewController: UITableViewController {
+    
+    let itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogogron"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
     }
+    
 
-
+    
 }
 
