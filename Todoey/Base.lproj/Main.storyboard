@@ -31,7 +31,14 @@
                             <outlet property="delegate" destination="P0D-Bx-JYt" id="tTa-F1-R5s"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="super-duper to-do" id="DL8-ih-ouS"/>
+                    <navigationItem key="navigationItem" title="super-duper to-do" id="DL8-ih-ouS">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="OSc-Kd-xVr">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="addButtonPressed:" destination="P0D-Bx-JYt" id="MmT-Cf-jPg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ff4-g9-hSy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

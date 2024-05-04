@@ -10,7 +10,8 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     
-    let itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogogron"]
+    var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogogron"]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +41,45 @@ class TodoListViewController: UITableViewController {
     //MARK: - TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(itemArray[indexPath.row])
+        //        print(itemArray[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
         
+        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        } else {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        }
+    }
+    
+    
+    //MARK: - Add New Items
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "Add New Item", message: nil, preferredStyle: .alert)
+        
+        var textField = UITextField()
+        
+        //        Создание (но не добавление) кнопки "Add Item" во всплывающем окне и действия при нажатии на неё:
+        let action = UIAlertAction(title: "Add Item", style: .default) { [self] action in
+            
+            if let text = textField.text {
+                if !text.isEmpty {
+                    itemArray.append(text)
+                    tableView.reloadData()
+                }
+            }
+        }
+        
+        // добавление текстового поля в alert
+        alert.addTextField { alertTextField in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+            print("Now")
+        }
+        //        добавление кнопки "Add Item" в alert
+        alert.addAction(action)
+        
+        // Показ окна alert
+        present(alert, animated: true)
     }
 }
