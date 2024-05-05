@@ -10,7 +10,7 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     
-    var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogogron"]
+    var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogogron", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"]
     
     let defaults = UserDefaults.standard
     
@@ -18,6 +18,9 @@ class TodoListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let items = defaults.array(forKey: K.keyForUserDefaults) as? [String] {
+            itemArray = items
+        }
     }
     
     //MARK: - Tableview Datasource Methods
@@ -27,7 +30,10 @@ class TodoListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: K.cellIdentifier, for: indexPath)
+        let cell = UITableViewCell(style: .default, reuseIdentifier: K.cellIdentifier)
+        
+        
+//        let cell = tableView.dequeueReusableCell(withIdentifier: K.cellIdentifier, for: indexPath)
         let message = itemArray[indexPath.row]
         
         if #available(iOS 14.0, *) {
@@ -66,15 +72,9 @@ class TodoListViewController: UITableViewController {
             
             if let text = textField.text {
                 if !text.isEmpty {
+                    
                     itemArray.append(text)
                     defaults.set(itemArray, forKey: K.keyForUserDefaults)
-                    
-//                    if let savedData = UserDefaults.standard.object(forKey: K.keyForUserDefaults) {
-//                        if let savedDataAsArray = savedData as? [String] {
-//                            
-//                        }
-//                    }
-                    
                     tableView.reloadData()
                 }
             }
