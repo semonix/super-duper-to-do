@@ -96,7 +96,7 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1120;
 				LastUpgradeCheck = 1520;
-				ORGANIZATIONNAME = "App Brewery";
+				ORGANIZATIONNAME = semonix;
 				TargetAttributes = {
 					EB2BE4F5239524DB00FB933B = {
 						CreatedOnToolsVersion = 11.2.1;

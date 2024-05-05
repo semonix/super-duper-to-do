@@ -12,6 +12,8 @@ class TodoListViewController: UITableViewController {
     
     var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogogron"]
     
+    let defaults = UserDefaults.standard
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +67,14 @@ class TodoListViewController: UITableViewController {
             if let text = textField.text {
                 if !text.isEmpty {
                     itemArray.append(text)
+                    defaults.set(itemArray, forKey: K.keyForUserDefaults)
+                    
+//                    if let savedData = UserDefaults.standard.object(forKey: K.keyForUserDefaults) {
+//                        if let savedDataAsArray = savedData as? [String] {
+//                            
+//                        }
+//                    }
+                    
                     tableView.reloadData()
                 }
             }
@@ -74,8 +84,8 @@ class TodoListViewController: UITableViewController {
         alert.addTextField { alertTextField in
             alertTextField.placeholder = "Create new item"
             textField = alertTextField
-            print("Now")
         }
+        
         //        добавление кнопки "Add Item" в alert
         alert.addAction(action)
         
