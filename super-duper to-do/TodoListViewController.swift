@@ -17,6 +17,7 @@ class TodoListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateUI()
         
     }
     
@@ -69,13 +70,9 @@ class TodoListViewController: UITableViewController {
                     itemArray.append(text)
                     defaults.set(itemArray, forKey: K.keyForUserDefaults)
                     
-//                    if let savedData = UserDefaults.standard.object(forKey: K.keyForUserDefaults) {
-//                        if let savedDataAsArray = savedData as? [String] {
-//                            
-//                        }
-//                    }
+
+                    updateUI()
                     
-                    tableView.reloadData()
                 }
             }
         }
@@ -91,5 +88,15 @@ class TodoListViewController: UITableViewController {
         
         // Показ окна alert
         present(alert, animated: true)
+    }
+    
+    func updateUI() {
+        if let savedData = UserDefaults.standard.object(forKey: K.keyForUserDefaults) {
+            if let savedDataAsArray = savedData as? [String] {
+                itemArray = savedDataAsArray
+            }
+        }
+        tableView.reloadData()
+        
     }
 }
