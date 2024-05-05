@@ -17,13 +17,13 @@
 
 /* Begin PBXFileReference section */
 		70BCD3DB2BDFE2050034D620 /* K.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = K.swift; sourceTree = "<group>"; };
-		EB2BE4F6239524DB00FB933B /* Todoey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todoey.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		70E88C6A2BE77874000BA4B4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EB2BE4F6239524DB00FB933B /* super-duper to-do.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "super-duper to-do.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB2BE4F9239524DB00FB933B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EB2BE4FD239524DB00FB933B /* TodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewController.swift; sourceTree = "<group>"; };
 		EB2BE500239524DB00FB933B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EB2BE502239524DC00FB933B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EB2BE505239524DC00FB933B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		EB2BE507239524DC00FB933B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,7 +40,7 @@
 		EB2BE4ED239524DB00FB933B = {
 			isa = PBXGroup;
 			children = (
-				EB2BE4F8239524DB00FB933B /* Todoey */,
+				EB2BE4F8239524DB00FB933B /* super-duper to-do */,
 				EB2BE4F7239524DB00FB933B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -48,12 +48,12 @@
 		EB2BE4F7239524DB00FB933B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EB2BE4F6239524DB00FB933B /* Todoey.app */,
+				EB2BE4F6239524DB00FB933B /* super-duper to-do.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EB2BE4F8239524DB00FB933B /* Todoey */ = {
+		EB2BE4F8239524DB00FB933B /* super-duper to-do */ = {
 			isa = PBXGroup;
 			children = (
 				EB2BE4F9239524DB00FB933B /* AppDelegate.swift */,
@@ -62,17 +62,17 @@
 				EB2BE4FF239524DB00FB933B /* Main.storyboard */,
 				EB2BE502239524DC00FB933B /* Assets.xcassets */,
 				EB2BE504239524DC00FB933B /* LaunchScreen.storyboard */,
-				EB2BE507239524DC00FB933B /* Info.plist */,
+				70E88C6A2BE77874000BA4B4 /* Info.plist */,
 			);
-			path = Todoey;
+			path = "super-duper to-do";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EB2BE4F5239524DB00FB933B /* Todoey */ = {
+		EB2BE4F5239524DB00FB933B /* super-duper to-do */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EB2BE50A239524DC00FB933B /* Build configuration list for PBXNativeTarget "Todoey" */;
+			buildConfigurationList = EB2BE50A239524DC00FB933B /* Build configuration list for PBXNativeTarget "super-duper to-do" */;
 			buildPhases = (
 				EB2BE4F2239524DB00FB933B /* Sources */,
 				EB2BE4F3239524DB00FB933B /* Frameworks */,
@@ -82,9 +82,9 @@
 			);
 			dependencies = (
 			);
-			name = Todoey;
+			name = "super-duper to-do";
 			productName = Todoey;
-			productReference = EB2BE4F6239524DB00FB933B /* Todoey.app */;
+			productReference = EB2BE4F6239524DB00FB933B /* super-duper to-do.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -103,7 +103,7 @@
 					};
 				};
 			};
-			buildConfigurationList = EB2BE4F1239524DB00FB933B /* Build configuration list for PBXProject "Todoey" */;
+			buildConfigurationList = EB2BE4F1239524DB00FB933B /* Build configuration list for PBXProject "super-duper to-do" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -116,7 +116,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EB2BE4F5239524DB00FB933B /* Todoey */,
+				EB2BE4F5239524DB00FB933B /* super-duper to-do */,
 			);
 		};
 /* End PBXProject section */
@@ -291,9 +291,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_OPTIMIZATION_PROFILE_FILE = "$(SRCROOT)/OptimizationProfiles/$(PROJECT_NAME).profdata";
+				CLANG_USE_OPTIMIZATION_PROFILE = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 33F434SKZR;
-				INFOPLIST_FILE = Todoey/Info.plist;
+				INFOPLIST_FILE = "super-duper to-do/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "super-duper to-do";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -311,9 +313,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_OPTIMIZATION_PROFILE_FILE = "$(SRCROOT)/OptimizationProfiles/$(PROJECT_NAME).profdata";
+				CLANG_USE_OPTIMIZATION_PROFILE = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 33F434SKZR;
-				INFOPLIST_FILE = Todoey/Info.plist;
+				INFOPLIST_FILE = "super-duper to-do/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "super-duper to-do";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -330,7 +334,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EB2BE4F1239524DB00FB933B /* Build configuration list for PBXProject "Todoey" */ = {
+		EB2BE4F1239524DB00FB933B /* Build configuration list for PBXProject "super-duper to-do" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EB2BE508239524DC00FB933B /* Debug */,
@@ -339,7 +343,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EB2BE50A239524DC00FB933B /* Build configuration list for PBXNativeTarget "Todoey" */ = {
+		EB2BE50A239524DC00FB933B /* Build configuration list for PBXNativeTarget "super-duper to-do" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EB2BE50B239524DC00FB933B /* Debug */,
