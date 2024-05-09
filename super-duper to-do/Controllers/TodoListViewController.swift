@@ -10,53 +10,50 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     
-    var itemArray = ["Find Mike", "Buy Eggos", "Destroy Demogogron", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"]
-    
-    let defaults = UserDefaults.standard
+    var itemArray = [Item]()
+    var count = 0
+    var dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(K.keyForDataFilePath)
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        print(dataFilePath)
+        loadItems()
+        print(123)
         
-        if let items = defaults.array(forKey: K.keyForUserDefaults) as? [String] {
-            itemArray = items
-        }
     }
     
-    //MARK: - Tableview Datasource Methods
+    //MARK: - UpdateUI || Tableview Datasource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         itemArray.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = UITableViewCell(style: .default, reuseIdentifier: K.cellIdentifier)
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.cellIdentifier, for: indexPath)
+        let item = itemArray[indexPath.row]
         
-        
-//        let cell = tableView.dequeueReusableCell(withIdentifier: K.cellIdentifier, for: indexPath)
-        let message = itemArray[indexPath.row]
+        cell.accessoryType = item.done ? .checkmark: .none
         
         if #available(iOS 14.0, *) {
             var content = cell.defaultContentConfiguration()
-            content.text = message
+            content.text = item.title
             cell.contentConfiguration = content
         } else {
-            cell.textLabel?.text = message
+            cell.textLabel?.text = item.title
         }
+        
         return cell
     }
     
-    //MARK: - TableView Delegate Methods
+    //MARK: - did Select | TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        print(itemArray[indexPath.row])
-        tableView.deselectRow(at: indexPath, animated: true)
         
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        }
+        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        saveItems()
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
@@ -73,9 +70,11 @@ class TodoListViewController: UITableViewController {
             if let text = textField.text {
                 if !text.isEmpty {
                     
-                    itemArray.append(text)
-                    defaults.set(itemArray, forKey: K.keyForUserDefaults)
-                    tableView.reloadData()
+                    let newItem = Item()
+                    newItem.title = text
+                    
+                    itemArray.append(newItem)
+                    saveItems()
                 }
             }
         }
@@ -91,5 +90,29 @@ class TodoListViewController: UITableViewController {
         
         // Показ окна alert
         present(alert, animated: true)
+    }
+    //MARK: - Model Manipulation Methods
+    
+    func saveItems() {
+        let encoder = PropertyListEncoder()
+        do {
+            let data = try encoder.encode(itemArray)
+            // Сохраняем данные в файл
+            try data.write(to: dataFilePath!)
+        } catch {
+            print("Ошибка при кодировании данных: \(error)")
+        }
+        tableView.reloadData()
+    }
+    
+    func loadItems() {
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+                itemArray = try decoder.decode([Item].self, from: data)
+            } catch {
+                print("Ошибка при декодировании данных: \(error)")
+            }
+        }
     }
 }
