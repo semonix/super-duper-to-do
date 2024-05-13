@@ -7,20 +7,18 @@
 //
 
 import UIKit
+import CoreData
 
 class TodoListViewController: UITableViewController {
     
     var itemArray = [Item]()
     var count = 0
-    var dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(K.keyForDataFilePath)
-    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        print(dataFilePath)
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)/*.first?.appendingPathComponent(K.keyForDataFilePath)*/)
         loadItems()
-        print(123)
-        
     }
     
     //MARK: - UpdateUI || Tableview Datasource Methods
@@ -67,15 +65,15 @@ class TodoListViewController: UITableViewController {
         //        Создание (но не добавление) кнопки "Add Item" во всплывающем окне и действия при нажатии на неё:
         let action = UIAlertAction(title: "Add Item", style: .default) { [self] action in
             
-            if let text = textField.text {
-                if !text.isEmpty {
-                    
-                    let newItem = Item()
-                    newItem.title = text
-                    
-                    itemArray.append(newItem)
-                    saveItems()
-                }
+            if let text = textField.text, !text.isEmpty {
+                
+                // Создаётся объект в контексте и ссылка на этот объект присваивается константе newItem
+                let newItem = Item(context: context)
+                newItem.title = text
+                newItem.done = false
+                
+                itemArray.append(newItem)
+                saveItems()
             }
         }
         
@@ -94,25 +92,27 @@ class TodoListViewController: UITableViewController {
     //MARK: - Model Manipulation Methods
     
     func saveItems() {
-        let encoder = PropertyListEncoder()
+        
         do {
-            let data = try encoder.encode(itemArray)
-            // Сохраняем данные в файл
-            try data.write(to: dataFilePath!)
+            // сохраняем контекст в CoreData
+            try context.save()
+            print("Сохранение контекста прошло успешно")
         } catch {
-            print("Ошибка при кодировании данных: \(error)")
+            print("Ошибка сохранение контекста: \(error)")
         }
         tableView.reloadData()
     }
     
     func loadItems() {
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            let decoder = PropertyListDecoder()
-            do {
-                itemArray = try decoder.decode([Item].self, from: data)
-            } catch {
-                print("Ошибка при декодировании данных: \(error)")
-            }
+        let request/*: NSFetchRequest<Item>*/ = Item.fetchRequest()
+        do {
+            itemArray = try context.fetch(request)
+//            for i in itemArray {
+//                print("title is: \(i.title!), done is: \(i .done)")
+//            }
+        } catch {
+            print("Ошибка получения данных из базы + из контекста: \(error)")
         }
     }
 }
+
