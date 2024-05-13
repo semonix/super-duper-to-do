@@ -12,7 +12,6 @@ import CoreData
 class TodoListViewController: UITableViewController {
     
     var itemArray = [Item]()
-    var count = 0
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
@@ -21,7 +20,7 @@ class TodoListViewController: UITableViewController {
         loadItems()
     }
     
-    //MARK: - UpdateUI || Tableview Datasource Methods
+    //MARK: - UpdateUI | Tableview Datasource Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         itemArray.count
     }
@@ -52,6 +51,7 @@ class TodoListViewController: UITableViewController {
         saveItems()
         
         tableView.deselectRow(at: indexPath, animated: true)
+        
     }
     
     
@@ -92,7 +92,6 @@ class TodoListViewController: UITableViewController {
     //MARK: - Model Manipulation Methods
     
     func saveItems() {
-        
         do {
             // сохраняем контекст в CoreData
             try context.save()
@@ -107,9 +106,6 @@ class TodoListViewController: UITableViewController {
         let request/*: NSFetchRequest<Item>*/ = Item.fetchRequest()
         do {
             itemArray = try context.fetch(request)
-//            for i in itemArray {
-//                print("title is: \(i.title!), done is: \(i .done)")
-//            }
         } catch {
             print("Ошибка получения данных из базы + из контекста: \(error)")
         }
