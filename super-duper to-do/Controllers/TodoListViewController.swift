@@ -17,11 +17,12 @@ class TodoListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(dataFilePath)
-//        loadItems()
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        
+        loadItems()
     }
     
-    //MARK: - UpdateUI || Tableview Datasource Methods
+    //MARK: - UpdateUI || Tableview Datasource Methods // Запускаются при вызове tableView.reloadData()
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         itemArray.count
     }
@@ -48,7 +49,11 @@ class TodoListViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        
+//        context.delete(itemArray[indexPath.row])
+//        itemArray.remove(at: indexPath.row)
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+        
         saveItems()
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -68,11 +73,12 @@ class TodoListViewController: UITableViewController {
             if let text = textField.text {
                 if !text.isEmpty {
                     
-                    // Cоздает экземпляр Core Data и добавляет? его в контекст
+                    // Cоздает экземпляр Core Data и добавляет его в контекст
                     let newItem = Item(context: context)
                     newItem.title = text
                     newItem.done = false
                     itemArray.append(newItem)
+                    
                     saveItems()
                 }
             }
@@ -102,14 +108,14 @@ class TodoListViewController: UITableViewController {
         tableView.reloadData()
     }
     
-//    func loadItems() {
-//        if let data = try? Data(contentsOf: dataFilePath!) {
-//            let decoder = PropertyListDecoder()
-//            do {
-//                itemArray = try decoder.decode([Item].self, from: data)
-//            } catch {
-//                print("Ошибка при декодировании данных: \(error)")
-//            }
-//        }
-//    }
+    func loadItems() {
+        // request - настройки запроса (пустые)
+        let request = Item.fetchRequest()
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Eroor fetching data from context \(error)")
+        }
+    }
 }
+
