@@ -17,9 +17,9 @@ class TodoListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
-        loadItems()
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        loadItems(with: Item.fetchRequest())
     }
     
     //MARK: - UpdateUI || Tableview Datasource Methods // Запускаются при вызове tableView.reloadData()
@@ -50,8 +50,8 @@ class TodoListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         
-//        context.delete(itemArray[indexPath.row])
-//        itemArray.remove(at: indexPath.row)
+        //        context.delete(itemArray[indexPath.row])
+        //        itemArray.remove(at: indexPath.row)
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
         saveItems()
@@ -99,7 +99,6 @@ class TodoListViewController: UITableViewController {
     //MARK: - Model Manipulation Methods
     
     func saveItems() {
-        
         do {
             try context.save()
         } catch {
@@ -108,14 +107,32 @@ class TodoListViewController: UITableViewController {
         tableView.reloadData()
     }
     
-    func loadItems() {
-        // request - настройки запроса (пустые)
-        let request = Item.fetchRequest()
+    func loadItems(with request: NSFetchRequest<Item>) {
+        
         do {
             itemArray = try context.fetch(request)
         } catch {
             print("Eroor fetching data from context \(error)")
         }
+        tableView.reloadData()
+    }
+}
+//MARK: - Search bar methods
+
+extension TodoListViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // request - настройки запроса (пустые)
+        let request = Item.fetchRequest()
+        
+        if !searchBar.text!.isEmpty {
+            // настройки запроса
+            request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+            // настройки сортировки
+            request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        }
+        
+        loadItems(with: request)
     }
 }
 
