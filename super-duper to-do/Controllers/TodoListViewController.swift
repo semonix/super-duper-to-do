@@ -1,10 +1,10 @@
 //
 //  ViewController.swift
-//  Todoey
+//  super-duper to-do
 //
-//  Created by Philipp Muellauer on 02/12/2019.
-//  Copyright © 2019 App Brewery. All rights reserved.
-//
+//  Created by Даниял on 29.04.2024.
+//  Copyright © 2024 All rights reserved.
+//  Прошу не судить строго 🙃 Я способен на большее, только скажите что именно подправить/добавить
 
 import UIKit
 import CoreData
@@ -19,10 +19,10 @@ class TodoListViewController: UITableViewController {
         super.viewDidLoad()
         
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        loadItems(with: Item.fetchRequest())
+        loadItems()
     }
     
-    //MARK: - UpdateUI || Tableview Datasource Methods // Запускаются при вызове tableView.reloadData()
+    //MARK: - UpdateUI || Tableview Datasource Methods // Запускаются после viewDidLoad и при вызове tableView.reloadData()
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         itemArray.count
     }
@@ -48,40 +48,38 @@ class TodoListViewController: UITableViewController {
     //MARK: - did Select | TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
-                context.delete(itemArray[indexPath.row])
-                itemArray.remove(at: indexPath.row)
-//        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+                
+        // При первом нажатии ставим галочку, при втором - удаляем
+        if !itemArray[indexPath.row].done {
+            
+            itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+            tableView.deselectRow(at: indexPath, animated: true)
+        } else {
+            context.delete(itemArray[indexPath.row])
+            itemArray.remove(at: indexPath.row)
+        }
         
         saveItems()
-        
-        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
     //MARK: - Add New Items
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+
         let alert = UIAlertController(title: "Add New Item", message: nil, preferredStyle: .alert)
-        
         var textField = UITextField()
         
         //        Создание (но не добавление) кнопки "Add Item" во всплывающем окне и действия при нажатии на неё:
-        let action = UIAlertAction(title: "Add Item", style: .default) { [self] action in
-            
-            if let text = textField.text {
-                if !text.isEmpty {
-                    
-                    // Cоздает экземпляр Core Data и добавляет его в контекст
-                    let newItem = Item(context: context)
-                    newItem.title = text
-                    newItem.done = false
-                    itemArray.append(newItem)
-                    
-                    saveItems()
-                }
-            }
+        let action = UIAlertAction(title: "Add Item", style: .default) { [weak self] _ in
+            guard let self = self, let text = textField.text, !text.isEmpty else { return }
+
+            //  Cоздает экземпляр Core Data и добавляет его в контекст
+            let newItem = Item(context: context)
+            newItem.title = text
+            newItem.done = false
+            itemArray.append(newItem)
+            saveItems()
         }
         
         // добавление текстового поля в alert
@@ -96,31 +94,11 @@ class TodoListViewController: UITableViewController {
         // Показ окна alert
         present(alert, animated: true)
     }
-    //MARK: - Model Manipulation Methods
-    
-    func saveItems() {
-        do {
-            try context.save()
-        } catch {
-            print("Error saving context \(error)")
-        }
-        tableView.reloadData()
-    }
-    
-    func loadItems(with request: NSFetchRequest<Item>) {
-        
-        do {
-            itemArray = try context.fetch(request)
-        } catch {
-            print("Eroor fetching data from context \(error)")
-        }
-        tableView.reloadData()
-    }
 }
 //MARK: - Search bar methods
 
 extension TodoListViewController: UISearchBarDelegate {
-    
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // request - настройки запроса (пустые)
         let request = Item.fetchRequest()
@@ -136,3 +114,25 @@ extension TodoListViewController: UISearchBarDelegate {
     }
 }
 
+//MARK: - Data Methods
+extension TodoListViewController {
+    
+    func saveItems() {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context \(error)")
+        }
+        tableView.reloadData()
+    }
+    
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
+        
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print("Eroor fetching data from context \(error)")
+        }
+        tableView.reloadData()
+    }
+}

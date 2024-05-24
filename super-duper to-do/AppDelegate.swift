@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  Destini
+//  super-duper to-do
 //
-//  Created by Philipp Muellauer on 01/09/2015.
-//  Copyright (c) 2015 London App Brewery. All rights reserved.
+//  Created by Даниял on 29.04.2024.
+//  Copyright © 2024 All rights reserved.
 //
 
 import UIKit

@@ -1,9 +1,9 @@
 //
 //  K.swift
-//  Todoey
+//  super-duper to-do
 //
 //  Created by Даниял on 29.04.2024.
-//  Copyright © 2024 App Brewery. All rights reserved.
+//  Copyright © 2024 All rights reserved.
 //
 
 import Foundation
